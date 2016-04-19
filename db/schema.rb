@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160411180347) do
+ActiveRecord::Schema.define(version: 20160418165620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,6 +108,19 @@ ActiveRecord::Schema.define(version: 20160411180347) do
   add_index "spree_calculators", ["deleted_at"], name: "index_spree_calculators_on_deleted_at", using: :btree
   add_index "spree_calculators", ["id", "type"], name: "index_spree_calculators_on_id_and_type", using: :btree
 
+  create_table "spree_conekta_payments", force: :cascade do |t|
+    t.string   "payment_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "payment_method_id"
+    t.integer  "user_id"
+  end
+
+  add_index "spree_conekta_payments", ["payment_method_id"], name: "index_spree_conekta_payments_on_payment_method_id", using: :btree
+  add_index "spree_conekta_payments", ["user_id"], name: "index_spree_conekta_payments_on_user_id", using: :btree
+
   create_table "spree_countries", force: :cascade do |t|
     t.string   "iso_name"
     t.string   "iso"
@@ -132,6 +145,7 @@ ActiveRecord::Schema.define(version: 20160411180347) do
     t.integer  "user_id"
     t.integer  "payment_method_id"
     t.boolean  "default",                     default: false, null: false
+    t.integer  "installments_number"
   end
 
   add_index "spree_credit_cards", ["address_id"], name: "index_spree_credit_cards_on_address_id", using: :btree
